@@ -71,8 +71,18 @@ int main(int argc, char **argv) {
     }
     
     initscr();
-    
     signal(SIGWINCH, sig_winch);
+    
+    /* Set up values for random number generation */
+    if (console || xwindow) {
+	randnum = 51;
+	randmin = 166;
+	highnum = 217;
+    } else {
+	randnum = 93;
+	randmin = 33;
+	highnum = 123;
+    }
     
     //std::cout << "Hello, world!" << std::endl;
     
