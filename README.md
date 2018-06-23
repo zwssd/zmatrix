@@ -9,3 +9,6 @@ libncurses5-dev
 
 编译命令：
 g++ main.cpp -o main -lcurses
+
+运行效果如下：
+![运行效果](https://github.com/zwssd/zmatrix/raw/master/screenshots.png)
