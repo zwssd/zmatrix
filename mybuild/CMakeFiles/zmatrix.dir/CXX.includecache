@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/zhangwei/sources/zmatrix/main.cpp
+iostream
+-
+pty.h
+-
+signal.h
+-
+stdlib.h
+-
+unistd.h
+-
+ncurses.h
+-
+curses.h
+-
+sys/ioctl.h
+-
+

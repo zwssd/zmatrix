@@ -1,4 +1,4 @@
 [Project]
-Name=zmatrix
+CreatedFrom=zmatrix
 Manager=KDevCMakeManager
-VersionControl=
+Name=zmatrix

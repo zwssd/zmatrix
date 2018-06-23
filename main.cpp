@@ -72,15 +72,19 @@ int main(int argc, char **argv) {
     }
 
     initscr();
+    cbreak();
+    noecho();
+    timeout(0);
+    signal(SIGINT, finish);
     signal(SIGWINCH, sig_winch);
 
     randnum = 93;
-	randmin = 33;
-	highnum = 123;
+    randmin = 33;
+    highnum = 123;
 
     matrix_init();
     while(1) {
-        /*if ((keypress = wgetch(stdscr)) != ERR) {
+        if ((keypress = wgetch(stdscr)) != ERR) {
             switch (keypress) {
             case 'q':
                 finish(0);
@@ -91,20 +95,8 @@ int main(int argc, char **argv) {
             case 'B':
                 bold = 2;
                 break;
-            case '0':
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-                update = keypress - 48;
-                break;
             }
-        }*/
+        }
 
         for (j = 0; j <= COLS - 1; j += 2) {
             for (i = LINES - 1; i >= 1; i--)
@@ -113,37 +105,28 @@ int main(int argc, char **argv) {
             random = (int) rand() % (randnum + 8) + randmin;
 
             if (matrix[1][j].val == 0)
-			matrix[0][j].val = 1;
-		    else if (matrix[1][j].val == ' '
-			     || matrix[1][j].val == -1) {
-			if (spaces[j] > 0) {
-			    matrix[0][j].val = ' ';
-			    spaces[j]--;
-			} else {
-			    if (((int) rand() % 3) == 1)
-				matrix[0][j].val = 0;
-			    else
-				matrix[0][j].val = (int) rand() % randnum
-				    + randmin;
+                matrix[0][j].val = 1;
+            else if (matrix[1][j].val == ' ' || matrix[1][j].val == -1) {
+                if (spaces[j] > 0) {
+                    matrix[0][j].val = ' ';
+                    spaces[j]--;
+                } else {
+                    matrix[0][j].val = (int) rand() % randnum + randmin;
+                    spaces[j] = (int) rand() % LINES + 1;
+                }
+            } else if (random > highnum && matrix[1][j].val != 1)
+                matrix[0][j].val = ' ';
+            else
+                matrix[0][j].val = (int) rand() % randnum + randmin;
 
-			    spaces[j] = (int) rand() % LINES + 1;
-			}
-		    } else if (random > highnum && matrix[1][j].val != 1)
-			matrix[0][j].val = ' ';
-		    else
-			matrix[0][j].val = (int) rand() % randnum + randmin;
-
-            y = 1;
-            z = LINES;
+            y = 0;
+            z = LINES-1;
             for (i = y; i <= z; i++) {
                 move(i - y, j);
 
                 if (matrix[i][j].val == 0) {
                     addch('&');
-                } else
-                    addch(matrix[i][j].val);
-
-                if (matrix[i][j].val == -1)
+                } else if (matrix[i][j].val == -1)
                     addch(' ');
                 else
                     addch(matrix[i][j].val);
@@ -151,7 +134,7 @@ int main(int argc, char **argv) {
         }
 
         refresh();
-        napms(update * 10);
+        napms(update * 15);
     }
 
     endwin();
@@ -161,7 +144,6 @@ int main(int argc, char **argv) {
 
 void sig_winch(int s)
 {
-    char *tty = NULL;
     int fd = 0;
     int result = 0;
     struct winsize win;
@@ -173,7 +155,7 @@ void sig_winch(int s)
     COLS = win.ws_col;
     LINES = win.ws_row;
 
-    printf("%d rows, %d columns\n", win.ws_row, win.ws_col);//输出终端大小
+    //printf("%d rows, %d columns\n", win.ws_row, win.ws_col);//输出终端大小
 
     matrix_init();
     /* Do these b/c width may have changed... */
