@@ -11,4 +11,4 @@ libncurses5-dev
 g++ main.cpp -o main -lcurses
 
 运行效果如下：
-![运行效果](https://github.com/zwssd/zmatrix/raw/master/screenshots.png)
+![运行效果](https://github.com/zwssd/zmatrix/raw/master/screenshots/screenshot.png)
