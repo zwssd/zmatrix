@@ -1,7 +1,7 @@
 [
 {
   "directory": "/home/zhangwei/sources/zmatrix/mybuild",
-  "command": "/usr/bin/c++     -g   -o CMakeFiles/zmatrix.dir/main.cpp.o -c /home/zhangwei/sources/zmatrix/main.cpp",
+  "command": "/usr/bin/c++    -g   -o CMakeFiles/zmatrix.dir/main.cpp.o -c /home/zhangwei/sources/zmatrix/main.cpp",
   "file": "/home/zhangwei/sources/zmatrix/main.cpp"
 }
 ]

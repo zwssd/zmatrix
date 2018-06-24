@@ -1,1 +1,1 @@
-/usr/bin/c++   -g   CMakeFiles/zmatrix.dir/main.cpp.o  -o zmatrix -rdynamic 
+/usr/bin/c++  -g  -rdynamic CMakeFiles/zmatrix.dir/main.cpp.o  -o zmatrix -lncurses 

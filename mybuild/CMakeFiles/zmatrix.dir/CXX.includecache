@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -11,16 +11,14 @@ iostream
 -
 pty.h
 -
+ncurses.h
+-
+curses.h
+-
 signal.h
 -
 stdlib.h
 -
 unistd.h
--
-ncurses.h
--
-curses.h
--
-sys/ioctl.h
 -
 

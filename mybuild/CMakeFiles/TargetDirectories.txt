@@ -1,7 +1,7 @@
 /home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/install/strip.dir
-/home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/install/local.dir
-/home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/zmatrix.dir
 /home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/edit_cache.dir
+/home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/zmatrix.dir
 /home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/rebuild_cache.dir
-/home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/install.dir
 /home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/list_install_components.dir
+/home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/install/local.dir
+/home/zhangwei/sources/zmatrix/mybuild/CMakeFiles/install.dir
