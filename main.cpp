@@ -3,17 +3,14 @@ using namespace std;
 
 extern "C" {
 #include <pty.h>
-#include <signal.h>
-#include<stdlib.h>
-#include<unistd.h>
 #ifdef HAVE_NCURSES_H
 #include <ncurses.h>
 #else				/* Uh oh */
 #include <curses.h>
 #endif				/* CURSES_H */
-#ifdef HAVE_SYS_IOCTL_H
-#include <sys/ioctl.h>
-#endif				/* HAVE_SYS_IOCTL_H */
+#include <signal.h>
+#include <stdlib.h>
+#include <unistd.h>
 }
 
 /* Matrix typedef */
@@ -27,6 +24,7 @@ zmatrix **matrix = (zmatrix **) NULL;   /* The matrix has you */
 int *length = NULL;			/* Length of cols in each line */
 int *spaces = NULL;			/* spaces left to fill */
 int *updates = NULL;			/* What does this do again? :) */
+int cols,lines;
 
 
 void sig_winch(int s);
@@ -70,6 +68,8 @@ int main(int argc, char **argv) {
             exit(0);
         }
     }
+    
+    sig_winch('a');
 
     initscr();
     cbreak();
@@ -98,8 +98,8 @@ int main(int argc, char **argv) {
             }
         }
 
-        for (j = 0; j <= COLS - 1; j += 2) {
-            for (i = LINES - 1; i >= 1; i--)
+        for (j = 0; j <= cols - 1; j += 2) {
+            for (i = lines - 1; i >= 1; i--)
                 matrix[i][j].val = matrix[i - 1][j].val;
 
             random = (int) rand() % (randnum + 8) + randmin;
@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
                     spaces[j]--;
                 } else {
                     matrix[0][j].val = (int) rand() % randnum + randmin;
-                    spaces[j] = (int) rand() % LINES + 1;
+                    spaces[j] = (int) rand() % lines + 1;
                 }
             } else if (random > highnum && matrix[1][j].val != 1)
                 matrix[0][j].val = ' ';
@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
                 matrix[0][j].val = (int) rand() % randnum + randmin;
 
             y = 0;
-            z = LINES-1;
+            z = lines-1;
             for (i = y; i <= z; i++) {
                 move(i - y, j);
 
@@ -151,9 +151,9 @@ void sig_winch(int s)
     result = ioctl(fd, TIOCGWINSZ, &win);
     if (result == -1)
         return;
-
-    COLS = win.ws_col;
-    LINES = win.ws_row;
+    
+    cols = win.ws_col;
+    lines = win.ws_row;
 
     //printf("%d rows, %d columns\n", win.ws_row, win.ws_col);//输出终端大小
 
@@ -185,33 +185,33 @@ void matrix_init(void)
     if (matrix != NULL)
         free(matrix);
 
-    matrix = (zmatrix **) nmalloc(sizeof(zmatrix) * (LINES + 1));
-    for (i = 0; i <= LINES; i++)
-        matrix[i] = (zmatrix *) nmalloc(sizeof(zmatrix) * COLS);
+    matrix = (zmatrix **) nmalloc(sizeof(zmatrix) * (lines + 1));
+    for (i = 0; i <= lines; i++)
+        matrix[i] = (zmatrix *) nmalloc(sizeof(zmatrix) * cols);
 
     if (length != NULL)
         free(length);
-    length = (int *) nmalloc(COLS * sizeof(int));
+    length = (int *) nmalloc(cols * sizeof(int));
 
     if (spaces != NULL)
         free(spaces);
-    spaces = (int *) nmalloc(COLS* sizeof(int));
+    spaces = (int *) nmalloc(cols* sizeof(int));
 
     if (updates != NULL)
         free(updates);
-    updates = (int *) nmalloc(COLS * sizeof(int));
+    updates = (int *) nmalloc(cols * sizeof(int));
 
     /* Make the matrix */
-    for (i = 0; i <= LINES; i++)
-        for (j = 0; j <= COLS - 1; j += 2)
+    for (i = 0; i <= lines; i++)
+        for (j = 0; j <= cols - 1; j += 2)
             matrix[i][j].val = -1;
 
-    for (j = 0; j <= COLS - 1; j += 2) {
+    for (j = 0; j <= cols - 1; j += 2) {
         /* Set up spaces[] array of how many spaces to skip */
-        spaces[j] = (int) rand() % LINES + 1;
+        spaces[j] = (int) rand() % lines + 1;
 
         /* And length of the stream */
-        length[j] = (int) rand() % (LINES - 3) + 3;
+        length[j] = (int) rand() % (lines - 3) + 3;
 
         /* Sentinel value for creation of new objects */
         matrix[1][j].val = ' ';
